@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
 
+import Shop from "./Component/Shop";
+import Footer from "./Component/Footer";
+import React, { useState,useEffect } from "react";
+import Header from "./Component/Header";
+import CartItems from "./Utils/CartItems";
 function App() {
+  let [inputvalue,setInputValue] = useState("");
+  let prevArr =localStorage.getItem("cart") || "[]"
+  prevArr = JSON.parse(prevArr);
+  let [items, setItems] = useState(prevArr);
+  const handleInput = (val) => {
+    setInputValue(val);
+  };
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CartItems.Provider value={{items:items,
+     setItems:setItems,}}>
+    <Header handleInput = {handleInput} inVal = {inputvalue} ></Header>
+    <Shop handleInput = {handleInput} value = {inputvalue}></Shop>
+    <Footer></Footer>
+    </CartItems.Provider>
+    
   );
 }
 
